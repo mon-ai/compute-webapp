@@ -1,14 +1,13 @@
-import { getAuth } from "@clerk/remix/ssr.server";
-import { LoaderFunctionArgs, json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { db } from "~/clients/kysely";
 import { Button } from "~/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "~/components/ui/card";
 import {
   Table,
@@ -60,11 +59,7 @@ export default function All() {
   );
 }
 
-export const loader = async (args: LoaderFunctionArgs) => {
-  const { userId } = await getAuth(args);
-  if (!userId)
-    return redirect("/mpute/sign-in?redirect_url=" + args.request.url);
-
+export const loader = async () => {
   // fetch all projects
   const projects = await db.selectFrom("projects").selectAll().execute();
   return json({ projects });

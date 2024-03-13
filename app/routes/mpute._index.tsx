@@ -15,14 +15,16 @@ export default function Landing() {
   return (
     <div>
       <div className="flex flex-row gap-8 mx-auto w-fit">
-        <div className="font-['Courier_New'] text-5xl">
-          &nbsp;&nbsp;&nbsp;mmon
-          <br />
-          .co
-          <span className="bg-red-400 text-slate-50 shadow-[0.5rem_0.5rem_0_0] shadow-red-900">
-            mpute
-          </span>
-        </div>
+        <Link to="projects/all">
+          <div className="font-['Courier_New'] text-5xl">
+            &nbsp;&nbsp;&nbsp;mmon
+            <br />
+            .co
+            <span className="bg-red-400 text-slate-50 shadow-[0.5rem_0.5rem_0_0] shadow-red-900">
+              mpute
+            </span>
+          </div>
+        </Link>
         <div className="flex flex-col">
           <SignedIn>
             <Link
