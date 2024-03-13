@@ -303,11 +303,11 @@ export default function Mine() {
                     <TableCell>{project.description}</TableCell>
                     <TableCell>
                       <ActionButtons
+                        project={project}
                         selected={selected}
                         setSelected={setSelected}
-                        setMode={setSheetMode}
-                        project={project}
                         mode={sheetMode}
+                        setMode={setSheetMode}
                         setDefaultName={setDefaultName}
                         setDefaultDescription={setDefaultDescription}
                       />
