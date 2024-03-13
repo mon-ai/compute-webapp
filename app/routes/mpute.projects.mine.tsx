@@ -116,7 +116,7 @@ function NewProject({
       </SheetHeader>
       <Separator className="mt-2 mb-8" />
       <Form
-        id="newProject"
+        id="editProject"
         onSubmit={handleSubmit}
         className="flex flex-col gap-4"
       >
@@ -163,7 +163,7 @@ function NewProject({
       </Form>
       <SheetFooter>
         <SheetClose asChild>
-          <Button type="submit" form="newProject">
+          <Button type="submit" form="editProject">
             Done
           </Button>
         </SheetClose>
