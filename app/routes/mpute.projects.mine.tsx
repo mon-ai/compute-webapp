@@ -384,6 +384,7 @@ export const action: ActionFunction = async (args) => {
         .updateTable("projects")
         .where("id", "=", data.projectId)
         .set("active", false)
+        .set("updated_at", sql`now()`)
         .execute();
       return json({ ok: true });
       // TODO update BOINC server
