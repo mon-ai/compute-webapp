@@ -48,21 +48,21 @@ import {
 import { TabsContent } from "~/components/ui/tabs";
 import { Textarea } from "~/components/ui/textarea";
 
-const newProjectSchema = z.object({
+const editProjectSchema = z.object({
   intent: z.union([z.literal("new"), z.literal("edit")]),
   projectId: z.string().optional(),
   name: z.string(),
   description: z.string(),
   inputFile: z.any(),
 });
-const newProjectResolver = zodResolver(newProjectSchema);
+const editProjectResolver = zodResolver(editProjectSchema);
 
 const deleteProjectSchema = z.object({
   intent: z.literal("delete"),
   projectId: z.string(),
 });
 
-const schema = z.union([newProjectSchema, deleteProjectSchema]);
+const schema = z.union([editProjectSchema, deleteProjectSchema]);
 const resolver = zodResolver(schema);
 
 function NewProject({
@@ -81,9 +81,9 @@ function NewProject({
     formState: { errors },
     register,
     setValue,
-  } = useRemixForm<z.infer<typeof newProjectSchema>>({
+  } = useRemixForm<z.infer<typeof editProjectSchema>>({
     mode: "onSubmit",
-    resolver: newProjectResolver,
+    resolver: editProjectResolver,
     submitConfig: {
       method: "POST",
       encType: "multipart/form-data",
