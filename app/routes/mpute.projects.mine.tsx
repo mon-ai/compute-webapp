@@ -197,54 +197,46 @@ function ActionButtons({
   };
 }) {
   const submit = useSubmit();
+
+  // onClick functions
+  function submitDelete() {
+    submit(
+      { intent: "delete", projectId: project.id },
+      { method: "post", encType: "multipart/form-data" }
+    );
+  }
+  function selectDelete() {
+    setMode("delete");
+    setSelected(project.id);
+  }
+  function selectEdit() {
+    setMode("edit");
+    setSelected(project.id);
+    setDefaultName(project.name);
+    setDefaultDescription(project.description);
+  }
+
   if (!project.active) {
     return <>Project disabled</>;
   }
-
   return (
     <div>
       <SheetTrigger asChild>
-        <Button
-          onClick={() => {
-            setMode("edit");
-            setSelected(project.id);
-            setDefaultName(project.name);
-            setDefaultDescription(project.description);
-          }}
-          variant="ghost"
-          size="icon"
-        >
+        <Button onClick={selectEdit} variant="ghost" size="icon">
           <Pencil />
         </Button>
       </SheetTrigger>
       {mode == "delete" && selected === project.id ? (
         <>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() =>
-              submit(
-                { intent: "delete", projectId: project.id },
-                { method: "post", encType: "multipart/form-data" }
-              )
-            }
-          >
+          <Button variant="ghost" size="icon" onClick={submitDelete}>
             <Check />
           </Button>
-
           <Button variant="ghost" size="icon" onClick={() => setSelected("")}>
             <X />
           </Button>
         </>
       ) : (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            setMode("delete");
-            setSelected(project.id);
-          }}
-        >
+        <Button variant="ghost" size="icon" onClick={selectDelete}>
           <Trash2 />
         </Button>
       )}
