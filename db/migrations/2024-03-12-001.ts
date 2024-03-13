@@ -6,9 +6,10 @@ export async function up(db: Kysely<unknown>) {
     .addColumn("id", "uuid", ($) =>
       $.primaryKey().defaultTo(sql`gen_random_uuid()`)
     )
-    .addColumn("creator", "text", ($) => $.unique().notNull())
+    .addColumn("creator", "text", ($) => $.notNull())
     .addColumn("name", "text", ($) => $.notNull())
     .addColumn("description", "text", ($) => $.notNull())
+    .addColumn("active", "boolean", ($) => $.defaultTo(true).notNull())
     .addColumn("created_at", "timestamp", ($) =>
       $.defaultTo(sql`now()`).notNull()
     )

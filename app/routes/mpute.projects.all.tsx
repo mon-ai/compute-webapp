@@ -40,6 +40,7 @@ export default function All() {
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Creator</TableHead>
+                <TableHead>Active</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -48,6 +49,7 @@ export default function All() {
                   <TableCell>{project.name}</TableCell>
                   <TableCell>{project.description}</TableCell>
                   <TableCell>{project.creator}</TableCell>
+                  <TableCell>{project.active ? "Yes" : "No"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
