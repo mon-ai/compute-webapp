@@ -114,7 +114,7 @@ function EditProject({
           {mode == "new" ? "Make a new project." : "Edit project details."}
         </SheetDescription>
       </SheetHeader>
-      <Separator className="mt-2 mb-8" />
+      <Separator className="mb-8 mt-2" />
       <Form
         id="editProject"
         onSubmit={handleSubmit}
@@ -282,7 +282,7 @@ export default function Mine() {
               </Button>
             </SheetTrigger>
             <EditProject
-              mode={sheetMode !== "delete" ? sheetMode : "edit"}
+              mode={sheetMode == "delete" ? "new" : sheetMode}
               projectId={selected}
               name={defaultName}
               description={defaultDescription}
@@ -328,7 +328,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   if (!userId)
     return redirect("/mpute/sign-in?redirect_url=" + args.request.url);
 
-  // fetch all projects
+  // fetch all projects by user
   const projects = await db
     .selectFrom("projects")
     .where("creator", "=", userId)
@@ -356,6 +356,7 @@ export const action: ActionFunction = async (args) => {
     case "new": {
       const file = formData.get("inputFile") as File;
       if (!file) return json({ errors: { inputFile: "required" } });
+      const text = await file.text();
       await db
         .insertInto("projects")
         .values({
