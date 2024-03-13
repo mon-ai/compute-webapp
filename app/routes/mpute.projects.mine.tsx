@@ -65,7 +65,7 @@ const deleteProjectSchema = z.object({
 const schema = z.union([editProjectSchema, deleteProjectSchema]);
 const resolver = zodResolver(schema);
 
-function NewProject({
+function EditProject({
   mode,
   name,
   description,
@@ -281,7 +281,7 @@ export default function Mine() {
                 New Project
               </Button>
             </SheetTrigger>
-            <NewProject
+            <EditProject
               mode={sheetMode !== "delete" ? sheetMode : "edit"}
               projectId={selected}
               name={defaultName}
