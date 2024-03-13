@@ -252,6 +252,13 @@ export default function Mine() {
   const [defaultName, setDefaultName] = useState("");
   const [defaultDescription, setDefaultDescription] = useState("");
 
+  function selectNew() {
+    setSheetMode("new");
+    setSelected("");
+    setDefaultName("");
+    setDefaultDescription("");
+  }
+
   return (
     <TabsContent value="mine">
       <Card>
@@ -262,16 +269,7 @@ export default function Mine() {
         <CardContent>
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                onClick={() => {
-                  setSheetMode("new");
-                  setSelected("");
-                  setDefaultName("");
-                  setDefaultDescription("");
-                }}
-              >
-                New Project
-              </Button>
+              <Button onClick={selectNew}>New Project</Button>
             </SheetTrigger>
             <EditProject
               mode={sheetMode == "delete" ? "new" : sheetMode}
