@@ -6,7 +6,7 @@ export default function Layout() {
     <div>
       <div className="flex justify-between items-center sticky top-0 p-2">
         <Link to="/mpute">
-          <div className="font-['Courier_New'] text-xl leading-none">
+          <div className="font-['Courier_New'] text-2xl leading-none">
             &nbsp;&nbsp;&nbsp;mmon
             <br />
             .co

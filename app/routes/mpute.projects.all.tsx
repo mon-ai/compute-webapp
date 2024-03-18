@@ -25,7 +25,11 @@ export default function All() {
 
   return (
     <TabsContent value="all">
-      <Button variant="link">Get BOINC client</Button>
+      <Button variant="link" asChild>
+        <a href="https://boinc.mmon.co/proto" target="_blank" rel="noreferrer">
+          Get BOINC client
+        </a>
+      </Button>
       <Card>
         <CardHeader>
           <CardTitle>All Projects</CardTitle>

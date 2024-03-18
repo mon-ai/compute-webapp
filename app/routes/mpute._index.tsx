@@ -1,8 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/remix";
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { buttonVariants } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,60 +12,60 @@ export const meta: MetaFunction = () => {
 export default function Landing() {
   return (
     <div>
-      <div className="flex flex-row gap-8 mx-auto w-fit">
-        <Link to="projects/all">
-          <div className="font-['Courier_New'] text-5xl">
-            &nbsp;&nbsp;&nbsp;mmon
-            <br />
-            .co
-            <span className="bg-red-400 text-slate-50 shadow-[0.5rem_0.5rem_0_0] shadow-red-900">
-              mpute
-            </span>
-          </div>
-        </Link>
+      <div className="flex">
+        <div className="font-mono text-8xl">
+          <br />
+          .co
+        </div>
         <div className="flex flex-col">
-          <SignedIn>
-            <Link
-              to="projects/all"
-              className={cn(buttonVariants({ variant: "link" }), "font-mono")}
-            >
-              App
+          <div className="grid grid-cols-2 gap-x-16 gap-y-8">
+            <Link to="projects/all">
+              <div className="font-mono text-8xl">
+                mmon
+                <br />
+                <span className="bg-red-400 text-slate-50 shadow-[0.5rem_0.5rem_0_0] shadow-red-900">
+                  mpute
+                </span>
+              </div>
             </Link>
-          </SignedIn>
-          <SignedOut>
-            <Link
-              to="./sign-in"
-              className={cn(buttonVariants({ variant: "link" }), "font-mono")}
-            >
-              Sign In
-            </Link>
-            <Link
-              to="./sign-up"
-              className={cn(buttonVariants({ variant: "link" }), "font-mono")}
-            >
-              Sign Up
-            </Link>
-          </SignedOut>
-          <Link
-            to="./about"
-            className={cn(buttonVariants({ variant: "link" }), "font-mono")}
-          >
-            About
-          </Link>
-        </div>
-      </div>
-      <div className="pt-16 flex flex-col gap-4">
-        <div className="text-center font-['Courier_New']">
-          <h1 className="text-xl">for Researchers</h1>
-          <p className="text-2xl font-mono">
-            Access cheap compute for research workloads.
-          </p>
-        </div>
-        <div className="text-center font-['Courier_New']">
-          <h1 className="text-xl">for Everyone</h1>
-          <p className="text-2xl font-mono">
-            Donate compute time to advance science.
-          </p>
+            <div className="font-mono text-2xl pt-6">
+              <SignedIn>
+                <Link to="projects" className="hover:underline">
+                  App
+                </Link>
+              </SignedIn>
+              <SignedOut>
+                <Link to="sign-in" className="hover:underline">
+                  Sign In
+                </Link>
+                <br />
+                <Link to="sign-up" className="hover:underline">
+                  Sign Up
+                </Link>
+              </SignedOut>
+              <br />
+              <Link to="about" className="hover:underline">
+                About
+              </Link>
+            </div>
+            <div className="font-mono text-2xl col-span-2">
+              is a public market for computation.
+            </div>
+          </div>
+          <div className="pt-16 grid grid-cols-2 gap-y-4">
+            <div className="font-mono text-2xl col-span-2">
+              <h1 className="">for Researchers</h1>
+              <p className="font-bold">
+                Access cheap compute for research workloads.
+              </p>
+            </div>
+            <div className="font-mono text-2xl col-span-2">
+              <h1 className="">for Everyone</h1>
+              <p className="font-bold">
+                Donate compute time to advance science.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
