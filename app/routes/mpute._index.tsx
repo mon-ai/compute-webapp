@@ -54,13 +54,13 @@ export default function Landing() {
           </div>
           <div className="pt-16 grid grid-cols-2 gap-y-4">
             <div className="font-mono text-2xl col-span-2">
-              <h1 className="">for Researchers</h1>
+              <h1 className="opacity-80">for Researchers</h1>
               <p className="font-bold">
                 Access cheap compute for research workloads.
               </p>
             </div>
             <div className="font-mono text-2xl col-span-2">
-              <h1 className="">for Everyone</h1>
+              <h1 className="opacity-80">for Everyone</h1>
               <p className="font-bold">
                 Donate compute time to advance science.
               </p>

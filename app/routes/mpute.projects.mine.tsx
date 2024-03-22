@@ -5,14 +5,12 @@ import {
   LoaderFunctionArgs,
   json,
   redirect,
-  unstable_createMemoryUploadHandler,
-  unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import { sql } from "kysely";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRemixForm, validateFormData } from "remix-hook-form";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { db } from "~/clients/kysely";
 import { Button } from "~/components/ui/button";
@@ -53,7 +51,8 @@ const editProjectSchema = z.object({
   projectId: z.string().optional(),
   name: z.string(),
   description: z.string(),
-  inputFile: z.any(),
+  dockerCommand: z.string(),
+  // inputFile: z.any(),
 });
 const editProjectResolver = zodResolver(editProjectSchema);
 
@@ -86,7 +85,7 @@ function EditProject({
     resolver: editProjectResolver,
     submitConfig: {
       method: "POST",
-      encType: "multipart/form-data",
+      // encType: "multipart/form-data",
     },
     defaultValues: {
       intent: mode,
@@ -146,7 +145,8 @@ function EditProject({
             A brief description of your project.
           </span>
         </div>
-        {mode == "new" && (
+        {/*
+        mode == "new" && (
           <div className="flex flex-col gap-2">
             <Label htmlFor="inputFile">Input File</Label>
             <Input {...register("inputFile")} type="file" accept=".txt" />
@@ -157,6 +157,21 @@ function EditProject({
             )}
             <span className="text-muted-foreground text-sm">
               The application input file.
+            </span>
+          </div>
+        )
+        */}
+        {mode == "new" && (
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="dockerCommand">Command</Label>
+            <Input {...register("dockerCommand")} />
+            {errors.dockerCommand && (
+              <span className="text-destructive text-sm">
+                {errors.dockerCommand.message?.toString()}
+              </span>
+            )}
+            <span className="text-muted-foreground text-sm">
+              A docker command to run, without `docker run`.
             </span>
           </div>
         )}
@@ -202,7 +217,7 @@ function ActionButtons({
   function submitDelete() {
     submit(
       { intent: "delete", projectId: project.id },
-      { method: "post", encType: "multipart/form-data" }
+      { method: "post" /*, encType: "multipart/form-data" */ }
     );
   }
   function selectDelete() {
@@ -332,6 +347,7 @@ export const action: ActionFunction = async (args) => {
   if (!userId)
     return redirect("/mpute/sign-in?redirect_url=" + args.request.url);
 
+  /*
   const formData = await unstable_parseMultipartFormData(
     args.request,
     unstable_createMemoryUploadHandler()
@@ -340,24 +356,40 @@ export const action: ActionFunction = async (args) => {
     formData,
     resolver
   );
+  */
+  const { errors, data } = await getValidatedFormData<z.infer<typeof schema>>(
+    args.request,
+    resolver
+  );
   if (errors) return json({ errors }, { status: 422 });
 
   switch (data.intent) {
     case "new": {
+      /*
       const file = formData.get("inputFile") as File;
       if (!file) return json({ errors: { inputFile: "required" } });
       const text = await file.text();
+      */
+      const res = await fetch(`${process.env.API_URL}/boinc2docker-app`, {
+        method: "POST",
+        body: JSON.stringify({
+          cmd: data.dockerCommand,
+        }),
+      });
+      console.log(res, await res.text());
+      if (res.status != 200) return res;
+
       await db
         .insertInto("projects")
         .values({
           creator: userId,
           name: data.name,
           description: data.description,
+          command: data.dockerCommand,
         })
         .executeTakeFirst();
 
       return json({ ok: true });
-      // TODO update BOINC server
     }
     case "edit": {
       if (!data.projectId) return json({ errors: { projectId: "required" } });
